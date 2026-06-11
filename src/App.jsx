@@ -22,9 +22,9 @@ const DILEMMAS = [
   { id: 2, cat: "Loyalty", q: "Your close friend is interviewing for the same job as you. They ask you to look over their application. It's significantly better than yours.", ctx: "You could give feedback that subtly steers them wrong. They'd never know. The job would change your life more than theirs — you genuinely need it more." },
   { id: 3, cat: "Loyalty", q: "Your friend asks you to be their alibi for a night you know they weren't where they claim. You're not sure why they need it.", ctx: "They say it's not what you think. You trust them mostly. But you'd be lying to police if it ever came to that. They've done the same for you once, years ago." },
   { id: 4, cat: "Loyalty", q: "You realise your close friend has been quietly spreading a rumour about you — not maliciously, they believe it's true. It isn't.", ctx: "The rumour reached your workplace. Your friend doesn't know you know. Confronting them would expose the mutual friend who told you. Not confronting them lets it continue." },
-  { id: 5, cat: "Loyalty", q: "Your friend is relapsing into an addiction they've hidden from their partner and family. They beg you not to tell anyone.", ctx: "You've heard this before — three years ago it escalated badly. They're now the parent of a young child. You are the only person who knows." },
+  { id: 5, cat: "Loyalty", q: "Your friend is relapsing into an addiction they've hidden from their partner and family. They beg you not to tell anyone and say they have it under control.", ctx: "You've heard this before — three years ago it escalated badly. They're now the parent of a young child. You are the only person who knows." },
   { id: 6, cat: "Honesty", q: "Your closest friend just quit their stable job to pursue a business idea. They ask what you really think of their plan.", ctx: "You've seen the plan. It has serious flaws. They've already handed in their notice. They have a mortgage and a six-month-old baby." },
-  { id: 7, cat: "Honesty", q: "You know your friend's partner has been lying about where they go on Tuesday evenings.", ctx: "You've seen them across town three Tuesdays in a row. You have no proof of anything wrong. It could be something entirely innocent." },
+  { id: 7, cat: "Honesty", q: "You know your friend's partner has been lying about where they go on Tuesday evenings. You don't know why — but it's not what they claim.", ctx: "You've seen them across town three Tuesdays in a row. You have no proof of anything wrong. It could be something entirely innocent." },
   { id: 8, cat: "Honesty", q: "Would you tell a terminally ill loved one an uncomfortable truth if it might cause them distress in their final months?", ctx: "The truth concerns something they always wanted to know. Telling them now changes nothing practical. It might bring peace or it might bring pain." },
   { id: 9, cat: "Honesty", q: "You made a small error at work that nobody noticed. It had no real consequences. Do you confess?", ctx: "Confessing means a difficult conversation with your manager. There's a performance review in three weeks. The error is now fully resolved." },
   { id: 10, cat: "Honesty", q: "A friend asks if you like their new haircut. You find it genuinely unflattering and it's already done.", ctx: "They're about to go on a first date. They seem proud of it. A lie would make them feel confident. The truth would upset them and change nothing." },
@@ -38,10 +38,10 @@ const DILEMMAS = [
   { id: 18, cat: "Justice", q: "You know with certainty that someone convicted of a crime is actually innocent. Coming forward would seriously damage your own reputation.", ctx: "The convicted person is serving five years and has a young family. What you'd have to admit is not illegal but would be personally devastating." },
   { id: 19, cat: "Justice", q: "You discover your manager has been falsifying expense reports — small amounts, but consistently over two years.", ctx: "Your manager has championed your career. You're up for a promotion they're sponsoring. HR has an anonymous reporting line but the company is small enough that anonymous might not hold." },
   { id: 20, cat: "Justice", q: "You are an employer and discover that a candidate who lied on their CV is, after six months, your best-performing employee.", ctx: "Nobody else knows. Firing them means losing someone genuinely excellent. Keeping them means rewarding dishonesty. HR policy is unambiguous: termination." },
-  { id: 21, cat: "Money", q: "You find a holdall containing 80,000 in cash in your local park. No ID, no phone, nothing traceable.", ctx: "You're three months behind on rent and have two kids. The cash appears clean. You ask yourself: who carries that much cash in a holdall and reports it missing?" },
-  { id: 22, cat: "Money", q: "A billing error means you've been undercharged by a significant amount over 18 months. The company hasn't noticed.", ctx: "The company is a large corporation. The amount totals just over 3,000. Reporting it means repaying it all at once. The error was entirely their fault." },
+  { id: 21, cat: "Money", q: "You find a holdall containing a large amount of cash in your local park. No ID, no phone, nothing traceable.", ctx: "You're three months behind on rent and have two kids. The cash appears clean. You ask yourself: who carries that much cash in a holdall and reports it missing?" },
+  { id: 22, cat: "Money", q: "A billing error means you've been undercharged by a significant amount over 18 months. The company hasn't noticed.", ctx: "The company is a large corporation. Reporting it means repaying it all at once. You can afford to repay it but it would hurt. The error was entirely their fault." },
   { id: 23, cat: "Money", q: "You are offered a dream job that pays three times your salary — but it's at a company whose ethics you find deeply questionable.", ctx: "You have significant debt. The salary would change your life within three years. A close friend would consider it a personal betrayal." },
-  { id: 24, cat: "Money", q: "Is it wrong to buy luxury goods when others are starving?", ctx: "You've worked hard for your money and earned it legally. You give a small amount to charity each month. The luxury item costs 600. You want it. It would genuinely make you happy." },
+  { id: 24, cat: "Money", q: "Is it wrong to buy luxury goods when others are starving?", ctx: "You've worked hard for your money and earned it legally. You give a small amount to charity each month. The luxury item would genuinely make you happy." },
   { id: 25, cat: "Money", q: "You discover your accountant has been saving you money through a grey-area tax arrangement that is probably legal but ethically questionable.", ctx: "You benefit by around 4,000 per year. You didn't ask for this. HMRC has not flagged it. Stopping it means paying more tax than you technically owe." },
   { id: 26, cat: "Relationships", q: "Your partner admits they had a brief emotional affair a year ago — no physical contact — but developed genuine feelings. They ended it and never told you until now.", ctx: "Your relationship has been better than ever this past year. They say telling you now is because they want no secrets. You had no idea anything was wrong." },
   { id: 27, cat: "Relationships", q: "Your long-term partner admits they find one of your close friends deeply attractive and have for years. They haven't acted on it.", ctx: "The three of you regularly spend time together. Your partner says they're not asking for anything — just didn't want the secret. You must now decide if this changes anything." },
@@ -66,7 +66,7 @@ const DILEMMAS = [
   { id: 46, cat: "Society", q: "You find out a neighbour who has become a close friend is in the country illegally. They have two children born here.", ctx: "They confide in you during a vulnerable moment. Reporting them would almost certainly result in deportation. The children speak no other language." },
   { id: 47, cat: "Society", q: "You're at a dinner party and a guest makes a casually racist comment. Several people laugh nervously.", ctx: "You don't know the guest well. Your host is clearly uncomfortable but says nothing. Two close friends at the table also say nothing." },
   { id: 48, cat: "Society", q: "Should voting be made compulsory?", ctx: "Turnout in most democracies is below 60%. Low-income and young voters are disproportionately absent. Compulsory voting exists in Australia with minimal controversy." },
-  { id: 49, cat: "Society", q: "A homeless person you pass every day asks you for money. You suspect they'll spend it on alcohol.", ctx: "It's -3 degrees. They know your name because you've given them food before. You have 20 in your pocket. They say they just need a drink to get through tonight." },
+  { id: 49, cat: "Society", q: "A homeless person you pass every day asks you for money. You suspect they'll spend it on alcohol.", ctx: "It's freezing. They know your name because you've given them food before. You have cash in your pocket. They say they just need a drink to get through tonight." },
   { id: 50, cat: "Society", q: "Is it wrong to live a deliberately ordinary life when you have the intelligence and opportunity to do more?", ctx: "You are by most measures highly capable. You have chosen comfort, stability, and a quiet life. You are happy. Society could theoretically benefit if you applied yourself more ambitiously." },
   { id: 51, cat: "Philosophy", q: "Trolley problem: a runaway trolley will kill five people unless you pull a lever to divert it — diverting it kills one person you've never met.", ctx: "You have three seconds to decide. The five people are elderly. The one person is a 19-year-old student. Nobody will ever know what you chose." },
   { id: 52, cat: "Philosophy", q: "You could push a large stranger off a bridge to stop a trolley killing five people. The physics work. He would die. The five would live.", ctx: "You are the only person present. Nobody will know. The man did nothing wrong. You have two seconds." },
@@ -88,7 +88,7 @@ const DILEMMAS = [
   { id: 68, cat: "Health", q: "You are a healthy match for a bone marrow donation that could save a 12-year-old child's life. The procedure is painful with a six-week recovery.", ctx: "You are the only match on the register. The procedure has a very small but real risk to you. Nobody is forcing you. You have 48 hours to decide." },
   { id: 69, cat: "Health", q: "Your friend confides they've been diagnosed with a hereditary condition their adult sibling almost certainly also has — but they refuse to tell their sibling.", ctx: "The sibling is planning to have children. Early diagnosis could prevent passing the condition on. Your friend says it's their medical information to share or not." },
   { id: 70, cat: "Health", q: "Should vaccines be legally mandatory for public school attendance if herd immunity is at stake?", ctx: "Vaccination rates in your area have dropped below the threshold for herd immunity. There have been three outbreaks in two years. Some parents have religious objections." },
-  { id: 71, cat: "Hypothetical", q: "You can live to 150 in perfect health — but you will outlive everyone you currently love by decades and cannot choose to die early.", ctx: "You would watch your children, partner, and friends all die. You'd have 60 to 80 years alone at the end. In exchange: fully present, healthy, financially secure throughout." },
+  { id: 71, cat: "Hypothetical", q: "You can live to 150 in perfect health — but you will outlive everyone you currently love by decades and cannot choose to die early.", ctx: "You would watch your children, partner, and friends all die. You'd have decades alone at the end. In exchange: fully present, healthy, financially secure throughout." },
   { id: 72, cat: "Hypothetical", q: "You can press a button that guarantees your child has a happy, safe, comfortable — but entirely ordinary — life.", ctx: "The alternative is an unpredictable life that might mean great achievement and real meaning — or it might mean hardship and pain. You must choose before they're born." },
   { id: 73, cat: "Hypothetical", q: "You can erase one painful six-month period from your memory — but some of your most important growth came from that period too.", ctx: "You nominate the window. Everything in it disappears. You would not remember erasing it. Some relationships formed during that time would remain but you'd have no memory of how they started." },
   { id: 74, cat: "Hypothetical", q: "You discover your entire life has been a simulation. You can continue or exit to an unknown reality.", ctx: "Everything you love exists only inside the simulation. What's outside is entirely unknown. It might be nothing. You have 60 seconds to decide." },
@@ -472,7 +472,7 @@ function Answering({ room, update, pid }) {
   );
 }
 
-function Reveal({ room, update, pid }) {
+function Reveal({ room, update, pid, isHost }) {
   const answers = room.answers || {};
   const votes = room.votes || {};
   const players = room.players || {};
@@ -483,29 +483,58 @@ function Reveal({ room, update, pid }) {
   const totalVoters = Object.keys(players).length;
   const submitted = Object.keys(votes).length;
   const showChat = room.settings?.chatMode === "always";
+  const isTwoPlayer = totalVoters === 2;
   const entries = Object.entries(answers).sort((a, b) => a[0].localeCompare(b[0]));
+
+  const getHotSeatPid = (r) => {
+    const pids = Object.keys(r.answers || {});
+    const prevHotSeat = r.prevHotSeat;
+    if (isTwoPlayer && prevHotSeat) {
+      return pids.find(p => p !== prevHotSeat) || pids[0];
+    }
+    return pids[Math.floor(Math.random() * pids.length)];
+  };
+
   const castVote = () => {
     if (!fav || !least || fav === least) { alert("Pick a different answer for each vote."); return; }
     update(r => {
       const next = { ...r, votes: { ...(r.votes || {}), [pid]: { fav, least } } };
       if (Object.keys(next.votes).length >= Object.keys(next.players || {}).length) {
-        const pids = Object.keys(next.answers);
+        const hotPid = getHotSeatPid(next);
         next.phase = "hotseat";
-        next.hotSeat = pids[Math.floor(Math.random() * pids.length)];
+        next.hotSeat = hotPid;
+        next.prevHotSeat = hotPid;
         next.hotSeatVotes = {};
       }
       return next;
     });
   };
+
+  const skipToHotSeat = () => {
+    update(r => {
+      const hotPid = getHotSeatPid(r);
+      return { ...r, phase: "hotseat", hotSeat: hotPid, prevHotSeat: hotPid, hotSeatVotes: {} };
+    });
+  };
+
   return (
     <div style={{ minHeight: "100vh", padding: "72px 24px 40px" }}>
       <div style={{ maxWidth: showChat ? 960 : 720, margin: "0 auto", display: "flex", gap: 28, alignItems: "flex-start" }}>
         <div style={{ flex: 1, minWidth: 0 }} className="animate-in">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
             <h2 style={{ fontFamily: F.display, fontSize: 36, letterSpacing: "0.1em", color: T.white }}>ANSWERS</h2>
-            <span style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>{submitted}/{totalVoters} voted</span>
+            {!isTwoPlayer && <span style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>{submitted}/{totalVoters} voted</span>}
           </div>
-          {!hasVoted && <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "10px 16px", marginBottom: 20, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.1em", display: "flex", gap: 20, flexWrap: "wrap" }}><span style={{ color: T.gold }}>star = FAVOURITE +3 pts</span><span style={{ color: T.red }}>X = LEAST FAV +1 pt</span></div>}
+          {isTwoPlayer ? (
+            <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "10px 16px", marginBottom: 20, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.1em" }}>
+              2-PLAYER MODE — Read each other's answers. One of you will defend theirs next.
+            </div>
+          ) : !hasVoted && (
+            <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "10px 16px", marginBottom: 20, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.1em", display: "flex", gap: 20, flexWrap: "wrap" }}>
+              <span style={{ color: T.gold }}>STAR = FAVOURITE +3 pts</span>
+              <span style={{ color: T.red }}>X = LEAST FAV +1 pt</span>
+            </div>
+          )}
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
             {entries.map(([apid, answer], i) => {
               const isMe = apid === pid;
@@ -514,8 +543,10 @@ function Reveal({ room, update, pid }) {
               return (
                 <div key={apid} style={{ background: T.card, border: "1px solid " + (isFav ? T.gold : isLeast ? T.red : T.border), padding: "18px 20px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                    <span style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em" }}>RESPONSE {String(i + 1).padStart(2, "0")}{isMe ? " — YOU" : ""}</span>
-                    {!hasVoted && !isMe && (
+                    <span style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em" }}>
+                      RESPONSE {String(i + 1).padStart(2, "0")}{isMe ? " — YOU" : ""}
+                    </span>
+                    {!isTwoPlayer && !hasVoted && !isMe && (
                       <div style={{ display: "flex", gap: 6 }}>
                         <button onClick={() => setFav(isFav ? null : apid)} style={{ background: isFav ? T.gold : "transparent", border: "1px solid " + T.gold, color: isFav ? T.bg : T.gold, padding: "4px 12px", fontFamily: F.mono, fontSize: 9, cursor: "pointer" }}>FAV</button>
                         <button onClick={() => setLeast(isLeast ? null : apid)} style={{ background: isLeast ? T.red : "transparent", border: "1px solid " + T.red, color: isLeast ? T.white : T.red, padding: "4px 12px", fontFamily: F.mono, fontSize: 9, cursor: "pointer" }}>LEAST</button>
@@ -527,7 +558,21 @@ function Reveal({ room, update, pid }) {
               );
             })}
           </div>
-          {!hasVoted ? <button className="btn-primary" onClick={castVote} style={{ width: "100%" }}>Lock In Votes</button> : <div style={{ background: T.blueDim, border: "1px solid " + T.blue + "40", padding: "20px", textAlign: "center" }}><p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue, letterSpacing: "0.15em" }}>VOTES LOCKED — {submitted}/{totalVoters}</p></div>}
+          {isTwoPlayer ? (
+            isHost ? (
+              <button className="btn-primary" onClick={skipToHotSeat} style={{ width: "100%" }}>Go to Hot Seat →</button>
+            ) : (
+              <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "20px", textAlign: "center" }}>
+                <p style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim, letterSpacing: "0.1em" }}>Waiting for host to continue…</p>
+              </div>
+            )
+          ) : !hasVoted ? (
+            <button className="btn-primary" onClick={castVote} style={{ width: "100%" }}>Lock In Votes →</button>
+          ) : (
+            <div style={{ background: T.blueDim, border: "1px solid " + T.blue + "40", padding: "20px", textAlign: "center" }}>
+              <p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue, letterSpacing: "0.15em" }}>VOTES LOCKED — {submitted}/{totalVoters}</p>
+            </div>
+          )}
         </div>
         {showChat && <div style={{ width: 280, flexShrink: 0, position: "sticky", top: 60 }}><div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Chat</div><ChatPanel room={room} update={update} pid={pid} hotSeatPid={null} /></div>}
       </div>
@@ -637,6 +682,7 @@ function Results({ room, update, pid, isHost }) {
   });
   const hotSeatSurvived = Object.values(hotSeatVotes).filter(Boolean).length > Object.values(hotSeatVotes).length / 2;
   const totalVoters = Object.keys(players).length;
+  const isTwoPlayer = totalVoters === 2;
   const ranked = Object.entries(answers).map(([apid, answer]) => ({ pid: apid, answer, name: players[apid]?.name || "Unknown", score: players[apid]?.score || 0, favs: favCounts[apid] || 0, leasts: leastCounts[apid] || 0, isHotSeat: apid === hotSeat })).sort((a, b) => b.favs - a.favs);
   const leaderboard = Object.entries(players).map(([apid, p]) => ({ pid: apid, name: p.name, score: p.score || 0 })).sort((a, b) => b.score - a.score);
   const nextRound = () => {
@@ -664,17 +710,17 @@ function Results({ room, update, pid, isHost }) {
           {ranked.map((r, i) => {
             const favPct = totalVoters ? Math.round((r.favs / totalVoters) * 100) : 0;
             return (
-              <div key={r.pid} style={{ background: T.card, border: "1px solid " + (i === 0 ? T.gold : T.border), padding: "18px 20px" }}>
+              <div key={r.pid} style={{ background: T.card, border: "1px solid " + (i === 0 && !isTwoPlayer ? T.gold : T.border), padding: "18px 20px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                   <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                    {i === 0 && <span className="tag" style={{ color: T.gold }}>Most Loved</span>}
+                    {i === 0 && !isTwoPlayer && <span className="tag" style={{ color: T.gold }}>Most Loved</span>}
                     {r.isHotSeat && <span className="tag" style={{ color: T.red }}>Hot Seat</span>}
                     <span style={{ fontFamily: F.mono, fontSize: 13, color: T.white }}>{r.name}{r.pid === pid ? " (you)" : ""}</span>
                   </div>
-                  <div style={{ display: "flex", gap: 14, fontFamily: F.mono, fontSize: 11, flexShrink: 0 }}><span style={{ color: T.gold }}>{r.favs} fav</span><span style={{ color: T.red }}>{r.leasts} least</span></div>
+                  {!isTwoPlayer && <div style={{ display: "flex", gap: 14, fontFamily: F.mono, fontSize: 11, flexShrink: 0 }}><span style={{ color: T.gold }}>{r.favs} fav</span><span style={{ color: T.red }}>{r.leasts} least</span></div>}
                 </div>
                 <p style={{ fontSize: 14, lineHeight: 1.7, margin: "0 0 12px" }}>{r.answer}</p>
-                <div style={{ height: 2, background: T.border }}><div style={{ height: "100%", width: favPct + "%", background: T.gold, transition: "width 0.8s 0.2s ease" }} /></div>
+                {!isTwoPlayer && <div style={{ height: 2, background: T.border }}><div style={{ height: "100%", width: favPct + "%", background: T.gold, transition: "width 0.8s 0.2s ease" }} /></div>}
               </div>
             );
           })}
