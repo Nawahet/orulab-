@@ -228,7 +228,7 @@ function Landing({ onHost, onJoin }) {
   return (
     <div style={{ minHeight: "100vh", background: T.bg }}>
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px 60px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(" + T.border + " 1px, transparent 1px), linear-gradient(90deg, " + T.border + " 1px, transparent 1px)", backgroundSize: "60px 60px", opacity: 0.3 }} />
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(" + T.border + " 1px, transparent 1px), linear-gradient(90deg, " + T.border + " 1px, transparent 1px)", backgroundSize: "60px 60px", opacity: 0.3, pointerEvents: "none" }} />
         <div style={{ position: "relative", animation: "fade-up 0.6s ease both" }}><ChromeOrb size={72} pulse phase="idle" /></div>
         <h1 className="chrome-text" style={{ fontFamily: F.display, fontSize: "clamp(80px, 20vw, 200px)", letterSpacing: "0.08em", lineHeight: 0.9, margin: "32px 0 0" }}>ORU</h1>
         <p style={{ fontFamily: F.mono, fontSize: 11, letterSpacing: "0.4em", color: T.chromeDim, textTransform: "uppercase", margin: "20px 0 8px" }}>The moral dilemma game</p>
