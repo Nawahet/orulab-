@@ -436,10 +436,24 @@ function Answering({ room, update, pid }) {
     if (!text.trim()) return;
     update(r => {
       const next = { ...r, answers: { ...(r.answers || {}), [pid]: text.trim() } };
-      if (Object.keys(next.answers).length >= Object.keys(next.players || {}).length) next.phase = "reveal";
+      if (Object.keys(next.answers).length >= Object.keys(next.players || {}).length) {
+        const playerCount = Object.keys(next.players || {}).length;
+        if (playerCount === 2) {
+          const pids = Object.keys(next.answers);
+          const prevHotSeat = next.prevHotSeat;
+          const hotPid = prevHotSeat ? (pids.find(p => p !== prevHotSeat) || pids[0]) : pids[0];
+          next.phase = "hotseat";
+          next.hotSeat = hotPid;
+          next.prevHotSeat = hotPid;
+          next.hotSeatVotes = {};
+        } else {
+          next.phase = "reveal";
+        }
+      }
       return next;
     });
   };
+
   return (
     <div style={{ minHeight: "100vh", padding: "72px 24px 40px" }}>
       <div style={{ maxWidth: showChat ? 960 : 680, margin: "0 auto", display: "flex", gap: 28, alignItems: "flex-start" }}>
