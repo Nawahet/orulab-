@@ -212,13 +212,13 @@ function ChromeOrb({ size = 80, pulse = false, phase = "idle" }) {
 
 function TopBar({ code, round, phase, playerCount }) {
   return (
-    <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: T.bg + "f0", borderBottom: "1px solid " + T.border, backdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 24px" }}>
-      <span className="chrome-text" style={{ fontFamily: F.display, fontSize: 22, letterSpacing: "0.15em" }}>ORU</span>
-      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-        {phase && <span className="tag" style={{ color: T.chromeDim }}>{phase}</span>}
-        {round > 0 && <span style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>RD {round}</span>}
-        {playerCount > 0 && <span style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>{playerCount} players</span>}
-        {code && <span style={{ fontFamily: F.mono, fontSize: 13, color: T.gold, letterSpacing: "0.2em" }}>{code}</span>}
+    <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: T.bg + "f0", borderBottom: "1px solid " + T.border, backdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px" }}>
+      <span className="chrome-text" style={{ fontFamily: F.display, fontSize: 20, letterSpacing: "0.15em" }}>ORU</span>
+      <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "nowrap", overflow: "hidden" }}>
+        {phase && <span className="tag" style={{ color: T.chromeDim, fontSize: 8 }}>{phase}</span>}
+        {round > 0 && <span style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim }}>RD {round}</span>}
+        {playerCount > 0 && <span style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim }}>{playerCount}p</span>}
+        {code && <span style={{ fontFamily: F.mono, fontSize: 12, color: T.gold, letterSpacing: "0.15em" }}>{code}</span>}
       </div>
     </div>
   );
@@ -399,7 +399,7 @@ function ChatPanel({ room, update, pid, hotSeatPid }) {
     <div style={{ background: T.surface, border: "1px solid " + T.border, display: "flex", flexDirection: "column", height: 320 }}>
       <div style={{ padding: "10px 16px", borderBottom: "1px solid " + T.border, fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", display: "flex", justifyContent: "space-between" }}>
         <span>Live Chat</span>
-        {hotSeatPid && <span style={{ color: T.red }}>{players[hotSeatPid]?.name} is on the hot seat</span>}
+        {hotSeatPid && <span style={{ color: T.red }}>{players[hotSeatPid]?.name} on hot seat</span>}
       </div>
       <div style={{ flex: 1, overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
         {messages.length === 0 && <p style={{ fontFamily: F.mono, fontSize: 10, color: T.border, textAlign: "center", margin: "auto 0" }}>No messages yet.</p>}
@@ -455,19 +455,19 @@ function Answering({ room, update, pid }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", padding: "72px 24px 40px" }}>
-      <div style={{ maxWidth: showChat ? 960 : 680, margin: "0 auto", display: "flex", gap: 28, alignItems: "flex-start" }}>
-        <div style={{ flex: 1, minWidth: 0 }} className="animate-in">
+    <div style={{ minHeight: "100vh", padding: "72px 16px 40px" }}>
+      <div style={{ maxWidth: showChat ? 960 : 680, margin: "0 auto", display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: 0, width: "100%" }} className="animate-in">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
             <span className="tag" style={{ color: T.chromeDim }}>{q.cat}</span>
             <span style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>{submitted}/{total} answered</span>
           </div>
-          <h1 style={{ fontSize: "clamp(20px, 3.5vw, 28px)", fontWeight: 400, lineHeight: 1.5, color: T.white, marginBottom: 20 }}>{q.q}</h1>
-          <div style={{ borderLeft: "2px solid " + T.gold, paddingLeft: 20, marginBottom: 32 }}>
+          <h1 style={{ fontSize: "clamp(18px, 4vw, 26px)", fontWeight: 400, lineHeight: 1.5, color: T.white, marginBottom: 20 }}>{q.q}</h1>
+          <div style={{ borderLeft: "2px solid " + T.gold, paddingLeft: 16, marginBottom: 28 }}>
             <div style={{ fontFamily: F.mono, fontSize: 9, color: T.gold, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 8 }}>Context</div>
             <p style={{ fontSize: 14, color: "#9a9080", lineHeight: 1.7, margin: 0 }}>{q.ctx}</p>
           </div>
-          <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "12px 16px", marginBottom: 24, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.1em" }}>RULE — Your answer must be exactly 2 sentences. Anonymous until after voting.</div>
+          <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "12px 16px", marginBottom: 24, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.05em" }}>RULE — 2 sentences max. Anonymous until voting.</div>
           {!hasAnswered ? (
             <>
               <textarea value={text} onChange={e => setText(e.target.value)} placeholder="Write your answer. Two sentences maximum." rows={5} style={{ background: T.surface, border: "1px solid " + T.border, color: T.white, padding: "16px 18px", fontSize: 15, fontFamily: F.body, lineHeight: 1.7, width: "100%", resize: "vertical", outline: "none" }} />
@@ -476,11 +476,16 @@ function Answering({ room, update, pid }) {
           ) : (
             <div style={{ background: T.blueDim, border: "1px solid " + T.blue + "40", padding: "24px", textAlign: "center" }}>
               <ChromeOrb size={40} pulse phase="answering" />
-              <p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue, marginTop: 16, letterSpacing: "0.15em" }}>ANSWER SUBMITTED — {submitted}/{total} in</p>
+              <p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue, marginTop: 16, letterSpacing: "0.1em" }}>SUBMITTED — {submitted}/{total} in</p>
             </div>
           )}
         </div>
-        {showChat && <div style={{ width: 280, flexShrink: 0, position: "sticky", top: 60 }}><div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Chat</div><ChatPanel room={room} update={update} pid={pid} hotSeatPid={null} /></div>}
+        {showChat && (
+          <div style={{ width: "100%", maxWidth: 400 }}>
+            <div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Chat</div>
+            <ChatPanel room={room} update={update} pid={pid} hotSeatPid={null} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -532,21 +537,21 @@ function Reveal({ room, update, pid, isHost }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", padding: "72px 24px 40px" }}>
-      <div style={{ maxWidth: showChat ? 960 : 720, margin: "0 auto", display: "flex", gap: 28, alignItems: "flex-start" }}>
-        <div style={{ flex: 1, minWidth: 0 }} className="animate-in">
+    <div style={{ minHeight: "100vh", padding: "72px 16px 40px" }}>
+      <div style={{ maxWidth: showChat ? 960 : 720, margin: "0 auto", display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: 0, width: "100%" }} className="animate-in">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
             <h2 style={{ fontFamily: F.display, fontSize: 36, letterSpacing: "0.1em", color: T.white }}>ANSWERS</h2>
             {!isTwoPlayer && <span style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>{submitted}/{totalVoters} voted</span>}
           </div>
           {isTwoPlayer ? (
-            <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "10px 16px", marginBottom: 20, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.1em" }}>
+            <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "10px 16px", marginBottom: 20, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.05em" }}>
               2-PLAYER MODE — Read each other's answers. One of you will defend theirs next.
             </div>
           ) : !hasVoted && (
-            <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "10px 16px", marginBottom: 20, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.1em", display: "flex", gap: 20, flexWrap: "wrap" }}>
-              <span style={{ color: T.gold }}>STAR = FAVOURITE +3 pts</span>
-              <span style={{ color: T.red }}>X = LEAST FAV +1 pt</span>
+            <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "10px 16px", marginBottom: 20, fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.05em", display: "flex", gap: 16, flexWrap: "wrap" }}>
+              <span style={{ color: T.gold }}>STAR = FAV +3</span>
+              <span style={{ color: T.red }}>X = LEAST +1</span>
             </div>
           )}
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
@@ -555,15 +560,15 @@ function Reveal({ room, update, pid, isHost }) {
               const isFav = fav === apid;
               const isLeast = least === apid;
               return (
-                <div key={apid} style={{ background: T.card, border: "1px solid " + (isFav ? T.gold : isLeast ? T.red : T.border), padding: "18px 20px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                    <span style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em" }}>
+                <div key={apid} style={{ background: T.card, border: "1px solid " + (isFav ? T.gold : isLeast ? T.red : T.border), padding: "16px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
+                    <span style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.15em" }}>
                       RESPONSE {String(i + 1).padStart(2, "0")}{isMe ? " — YOU" : ""}
                     </span>
                     {!isTwoPlayer && !hasVoted && !isMe && (
                       <div style={{ display: "flex", gap: 6 }}>
-                        <button onClick={() => setFav(isFav ? null : apid)} style={{ background: isFav ? T.gold : "transparent", border: "1px solid " + T.gold, color: isFav ? T.bg : T.gold, padding: "4px 12px", fontFamily: F.mono, fontSize: 9, cursor: "pointer" }}>FAV</button>
-                        <button onClick={() => setLeast(isLeast ? null : apid)} style={{ background: isLeast ? T.red : "transparent", border: "1px solid " + T.red, color: isLeast ? T.white : T.red, padding: "4px 12px", fontFamily: F.mono, fontSize: 9, cursor: "pointer" }}>LEAST</button>
+                        <button onClick={() => setFav(isFav ? null : apid)} style={{ background: isFav ? T.gold : "transparent", border: "1px solid " + T.gold, color: isFav ? T.bg : T.gold, padding: "4px 10px", fontFamily: F.mono, fontSize: 9, cursor: "pointer" }}>FAV</button>
+                        <button onClick={() => setLeast(isLeast ? null : apid)} style={{ background: isLeast ? T.red : "transparent", border: "1px solid " + T.red, color: isLeast ? T.white : T.red, padding: "4px 10px", fontFamily: F.mono, fontSize: 9, cursor: "pointer" }}>LEAST</button>
                       </div>
                     )}
                   </div>
@@ -574,21 +579,26 @@ function Reveal({ room, update, pid, isHost }) {
           </div>
           {isTwoPlayer ? (
             isHost ? (
-              <button className="btn-primary" onClick={skipToHotSeat} style={{ width: "100%" }}>Go to Hot Seat →</button>
+              <button className="btn-primary" onClick={skipToHotSeat} style={{ width: "100%" }}>Go to Hot Seat</button>
             ) : (
               <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "20px", textAlign: "center" }}>
-                <p style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim, letterSpacing: "0.1em" }}>Waiting for host to continue…</p>
+                <p style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>Waiting for host to continue…</p>
               </div>
             )
           ) : !hasVoted ? (
-            <button className="btn-primary" onClick={castVote} style={{ width: "100%" }}>Lock In Votes →</button>
+            <button className="btn-primary" onClick={castVote} style={{ width: "100%" }}>Lock In Votes</button>
           ) : (
             <div style={{ background: T.blueDim, border: "1px solid " + T.blue + "40", padding: "20px", textAlign: "center" }}>
-              <p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue, letterSpacing: "0.15em" }}>VOTES LOCKED — {submitted}/{totalVoters}</p>
+              <p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue, letterSpacing: "0.1em" }}>VOTES LOCKED — {submitted}/{totalVoters}</p>
             </div>
           )}
         </div>
-        {showChat && <div style={{ width: 280, flexShrink: 0, position: "sticky", top: 60 }}><div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Chat</div><ChatPanel room={room} update={update} pid={pid} hotSeatPid={null} /></div>}
+        {showChat && (
+          <div style={{ width: "100%", maxWidth: 400 }}>
+            <div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Chat</div>
+            <ChatPanel room={room} update={update} pid={pid} hotSeatPid={null} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -648,40 +658,45 @@ function HotSeat({ room, update, pid, isHost }) {
     });
   };
   return (
-    <div style={{ minHeight: "100vh", padding: "72px 24px 40px" }}>
-      <div style={{ maxWidth: showChat ? 960 : 680, margin: "0 auto", display: "flex", gap: 28, alignItems: "flex-start" }}>
-        <div style={{ flex: 1, minWidth: 0 }} className="animate-in">
-          <div style={{ textAlign: "center", marginBottom: 32 }}>
-            <ChromeOrb size={56} pulse phase="hotseat" />
-            <h2 style={{ fontFamily: F.display, fontSize: 48, letterSpacing: "0.1em", color: T.red, margin: "16px 0 4px" }}>HOT SEAT</h2>
-            <div style={{ fontFamily: F.mono, fontSize: 18, letterSpacing: "0.25em", color: T.white, marginBottom: 2 }}>{hotPlayer?.name}</div>
+    <div style={{ minHeight: "100vh", padding: "72px 16px 40px" }}>
+      <div style={{ maxWidth: showChat ? 960 : 680, margin: "0 auto", display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: 0, width: "100%" }} className="animate-in">
+          <div style={{ textAlign: "center", marginBottom: 28 }}>
+            <ChromeOrb size={52} pulse phase="hotseat" />
+            <h2 style={{ fontFamily: F.display, fontSize: 44, letterSpacing: "0.1em", color: T.red, margin: "14px 0 4px" }}>HOT SEAT</h2>
+            <div style={{ fontFamily: F.mono, fontSize: 16, letterSpacing: "0.2em", color: T.white, marginBottom: 2 }}>{hotPlayer?.name}</div>
             <p style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.15em" }}>is in the hot seat</p>
           </div>
-          <div className="card" style={{ padding: "16px 20px", marginBottom: 16 }}>
+          <div className="card" style={{ padding: "14px 16px", marginBottom: 14 }}>
             <div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", marginBottom: 8, textTransform: "uppercase" }}>The Dilemma</div>
             <p style={{ fontSize: 14, lineHeight: 1.6, margin: 0 }}>{question?.q}</p>
           </div>
-          <div style={{ background: T.redDim, border: "1px solid " + T.red + "40", padding: "16px 20px", marginBottom: 24 }}>
+          <div style={{ background: T.redDim, border: "1px solid " + T.red + "40", padding: "14px 16px", marginBottom: 20 }}>
             <div style={{ fontFamily: F.mono, fontSize: 9, color: T.red, letterSpacing: "0.2em", marginBottom: 8, textTransform: "uppercase" }}>{isOnHotSeat ? "Your answer — defend it" : hotPlayer?.name + "'s answer"}</div>
             <p style={{ fontSize: 15, lineHeight: 1.7, margin: 0 }}>{answers?.[hotSeat]}</p>
           </div>
-          {!votingOpen && <div style={{ textAlign: "center", marginBottom: 20 }}><div style={{ fontFamily: F.display, fontSize: 72, lineHeight: 1, color: timer < 20 ? T.red : T.chromeDim }}>{timer}</div><p style={{ fontFamily: F.mono, fontSize: 9, color: T.border, letterSpacing: "0.15em", marginTop: 4 }}>SECONDS REMAINING</p></div>}
-          {isOnHotSeat && !votingOpen && <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "20px", textAlign: "center", marginBottom: 16 }}><p style={{ fontFamily: F.mono, fontSize: 12, color: T.red, marginBottom: 8 }}>Defend your answer.</p><p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, marginBottom: showChat ? 16 : 0 }}>{showChat ? "Type your defence in chat. Tap done when finished." : "Defend out loud. Group votes when time is up."}</p>{showChat && <button className="btn-primary" onClick={() => update(r => ({ ...r, defenceDone: true }))} style={{ marginTop: 4 }}>Done defending</button>}</div>}
-          {isOnHotSeat && votingOpen && <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "20px", textAlign: "center" }}><p style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>Defence time is up. The group is voting...</p></div>}
+          {!votingOpen && <div style={{ textAlign: "center", marginBottom: 16 }}><div style={{ fontFamily: F.display, fontSize: 64, lineHeight: 1, color: timer < 20 ? T.red : T.chromeDim }}>{timer}</div><p style={{ fontFamily: F.mono, fontSize: 9, color: T.border, letterSpacing: "0.15em", marginTop: 4 }}>SECONDS REMAINING</p></div>}
+          {isOnHotSeat && !votingOpen && <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "16px", textAlign: "center", marginBottom: 14 }}><p style={{ fontFamily: F.mono, fontSize: 12, color: T.red, marginBottom: 8 }}>Defend your answer.</p><p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, marginBottom: showChat ? 14 : 0 }}>{showChat ? "Type your defence in chat. Tap done when finished." : "Defend out loud. Group votes when time is up."}</p>{showChat && <button className="btn-primary" onClick={() => update(r => ({ ...r, defenceDone: true }))} style={{ marginTop: 4 }}>Done defending</button>}</div>}
+          {isOnHotSeat && votingOpen && <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "16px", textAlign: "center" }}><p style={{ fontFamily: F.mono, fontSize: 11, color: T.chromeDim }}>Defence time is up. The group is voting...</p></div>}
           {!isOnHotSeat && votingOpen && myHSVote === undefined && (
             <>
-              <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, textAlign: "center", marginBottom: 16 }}>Did {hotPlayer?.name} survive the hot seat?</p>
+              <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, textAlign: "center", marginBottom: 14 }}>Did {hotPlayer?.name} survive the hot seat?</p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 }}>
                 <button className="btn-primary" onClick={() => voteHotSeat(true)} style={{ borderColor: T.green, color: T.green, background: T.greenDim }}>Survived</button>
                 <button className="btn-chrome" onClick={() => voteHotSeat(false)} style={{ borderColor: T.red, color: T.red }}>Crumbled</button>
               </div>
             </>
           )}
-          {!isOnHotSeat && votingOpen && myHSVote !== undefined && <div style={{ background: T.blueDim, border: "1px solid " + T.blue + "40", padding: "16px", textAlign: "center" }}><p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue }}>Voted — waiting for group... ({voteCount}/{totalVoters})</p></div>}
-          {!isOnHotSeat && !votingOpen && <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "16px", textAlign: "center" }}><p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim }}>{showChat ? "Cross-examine " + hotPlayer?.name + " in chat." : "Listen to " + hotPlayer?.name + "'s defence."} Vote opens when time is up.</p></div>}
-          {isHost && <button onClick={skipHotSeat} style={{ background: "transparent", border: "1px solid " + T.border, color: T.chromeDim, fontFamily: F.mono, fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", padding: "10px", cursor: "pointer", width: "100%", marginTop: 16 }}>Skip Hot Seat</button>}
+          {!isOnHotSeat && votingOpen && myHSVote !== undefined && <div style={{ background: T.blueDim, border: "1px solid " + T.blue + "40", padding: "14px", textAlign: "center" }}><p style={{ fontFamily: F.mono, fontSize: 11, color: T.blue }}>Voted — waiting... ({voteCount}/{totalVoters})</p></div>}
+          {!isOnHotSeat && !votingOpen && <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "14px", textAlign: "center" }}><p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim }}>{showChat ? "Cross-examine " + hotPlayer?.name + " in chat." : "Listen to " + hotPlayer?.name + "'s defence."} Vote opens when time is up.</p></div>}
+          {isHost && <button onClick={skipHotSeat} style={{ background: "transparent", border: "1px solid " + T.border, color: T.chromeDim, fontFamily: F.mono, fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", padding: "10px", cursor: "pointer", width: "100%", marginTop: 14 }}>Skip Hot Seat</button>}
         </div>
-        {showChat && <div style={{ width: 300, flexShrink: 0, position: "sticky", top: 60 }}><div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Chat</div><ChatPanel room={room} update={update} pid={pid} hotSeatPid={hotSeat} /></div>}
+        {showChat && (
+          <div style={{ width: "100%", maxWidth: 400 }}>
+            <div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>Chat</div>
+            <ChatPanel room={room} update={update} pid={pid} hotSeatPid={hotSeat} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -707,40 +722,40 @@ function Results({ room, update, pid, isHost }) {
     update(r => ({ ...r, phase: "answering", question: q, answers: {}, votes: {}, hotSeat: null, hotSeatVotes: {}, defenceDone: false, round: (r.round || 0) + 1 }));
   };
   return (
-    <div style={{ minHeight: "100vh", padding: "72px 24px 60px", maxWidth: 720, margin: "0 auto" }}>
+    <div style={{ minHeight: "100vh", padding: "72px 16px 60px", maxWidth: 720, margin: "0 auto" }}>
       <div className="animate-in">
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <ChromeOrb size={56} phase="results" pulse />
-          <h2 style={{ fontFamily: F.display, fontSize: 52, letterSpacing: "0.1em", color: T.white, margin: "20px 0 4px" }}>RESULTS</h2>
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <ChromeOrb size={52} phase="results" pulse />
+          <h2 style={{ fontFamily: F.display, fontSize: 48, letterSpacing: "0.1em", color: T.white, margin: "16px 0 4px" }}>RESULTS</h2>
           <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.2em", textTransform: "uppercase" }}>Round {room.round}</p>
         </div>
-        <div className="card" style={{ padding: "16px 20px", marginBottom: 8, borderLeft: "2px solid " + T.gold }}>
+        <div className="card" style={{ padding: "14px 16px", marginBottom: 8, borderLeft: "2px solid " + T.gold }}>
           <p style={{ fontFamily: F.mono, fontSize: 10, color: T.gold, letterSpacing: "0.2em", marginBottom: 6, textTransform: "uppercase" }}>The Dilemma</p>
-          <p style={{ fontSize: 14, lineHeight: 1.6, margin: "0 0 10px" }}>{question?.q}</p>
+          <p style={{ fontSize: 14, lineHeight: 1.6, margin: "0 0 8px" }}>{question?.q}</p>
           <p style={{ fontSize: 13, color: T.chromeDim, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>{question?.ctx}</p>
         </div>
-        {!room.hotSeatSkipped && <div style={{ background: hotSeatSurvived ? T.greenDim : T.redDim, border: "1px solid " + (hotSeatSurvived ? T.green : T.red) + "40", padding: "16px 20px", marginBottom: 24, textAlign: "center" }}><span style={{ fontFamily: F.mono, fontSize: 11, color: hotSeatSurvived ? T.green : T.red, letterSpacing: "0.15em" }}>HOT SEAT — {players[hotSeat]?.name} {hotSeatSurvived ? "SURVIVED +5 pts" : "CRUMBLED +2 pts"}</span></div>}
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
+        {!room.hotSeatSkipped && <div style={{ background: hotSeatSurvived ? T.greenDim : T.redDim, border: "1px solid " + (hotSeatSurvived ? T.green : T.red) + "40", padding: "14px 16px", marginBottom: 20, textAlign: "center" }}><span style={{ fontFamily: F.mono, fontSize: 11, color: hotSeatSurvived ? T.green : T.red, letterSpacing: "0.1em" }}>HOT SEAT — {players[hotSeat]?.name} {hotSeatSurvived ? "SURVIVED +5" : "CRUMBLED +2"}</span></div>}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
           {ranked.map((r, i) => {
             const favPct = totalVoters ? Math.round((r.favs / totalVoters) * 100) : 0;
             return (
-              <div key={r.pid} style={{ background: T.card, border: "1px solid " + (i === 0 && !isTwoPlayer ? T.gold : T.border), padding: "18px 20px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+              <div key={r.pid} style={{ background: T.card, border: "1px solid " + (i === 0 && !isTwoPlayer ? T.gold : T.border), padding: "16px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
                   <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
                     {i === 0 && !isTwoPlayer && <span className="tag" style={{ color: T.gold }}>Most Loved</span>}
                     {r.isHotSeat && <span className="tag" style={{ color: T.red }}>Hot Seat</span>}
                     <span style={{ fontFamily: F.mono, fontSize: 13, color: T.white }}>{r.name}{r.pid === pid ? " (you)" : ""}</span>
                   </div>
-                  {!isTwoPlayer && <div style={{ display: "flex", gap: 14, fontFamily: F.mono, fontSize: 11, flexShrink: 0 }}><span style={{ color: T.gold }}>{r.favs} fav</span><span style={{ color: T.red }}>{r.leasts} least</span></div>}
+                  {!isTwoPlayer && <div style={{ display: "flex", gap: 12, fontFamily: F.mono, fontSize: 11, flexShrink: 0 }}><span style={{ color: T.gold }}>{r.favs} fav</span><span style={{ color: T.red }}>{r.leasts} least</span></div>}
                 </div>
-                <p style={{ fontSize: 14, lineHeight: 1.7, margin: "0 0 12px" }}>{r.answer}</p>
+                <p style={{ fontSize: 14, lineHeight: 1.7, margin: "0 0 10px" }}>{r.answer}</p>
                 {!isTwoPlayer && <div style={{ height: 2, background: T.border }}><div style={{ height: "100%", width: favPct + "%", background: T.gold, transition: "width 0.8s 0.2s ease" }} /></div>}
               </div>
             );
           })}
         </div>
-        <div className="card" style={{ padding: "24px", marginBottom: 28 }}>
-          <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 20 }}>Leaderboard</p>
+        <div className="card" style={{ padding: "20px", marginBottom: 24 }}>
+          <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 16 }}>Leaderboard</p>
           {leaderboard.map((p, i) => (
             <div key={p.pid} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < leaderboard.length - 1 ? "1px solid " + T.border : "none" }}>
               <span style={{ fontFamily: F.display, fontSize: 28, color: i === 0 ? T.gold : T.chromeDim, width: 32, lineHeight: 1 }}>{i + 1}</span>
@@ -749,7 +764,7 @@ function Results({ room, update, pid, isHost }) {
             </div>
           ))}
         </div>
-        <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "20px 24px", marginBottom: 24, textAlign: "center" }}>
+        <div style={{ background: T.chromeFaint, border: "1px solid " + T.border, padding: "18px", marginBottom: 20, textAlign: "center" }}>
           <p style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 10 }}>Discuss</p>
           <p style={{ fontSize: 13, color: T.chromeDim, lineHeight: 1.6, margin: 0 }}>Does anyone want to change their answer now? Who surprised you? What would you do differently?</p>
         </div>
@@ -791,3 +806,4 @@ export default function App() {
     </div>
   );
 }
+
