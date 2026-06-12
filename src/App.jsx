@@ -225,56 +225,97 @@ function TopBar({ code, round, phase, playerCount }) {
 }
 
 function Landing({ onHost, onJoin }) {
+  const [step, setStep] = useState(0);
+  const touchStart = useRef(null);
+
+  const steps = [
+    { n: "01", title: "Host or join", body: "One person creates a room. Everyone joins on their own phone with the code. No download." },
+    { n: "02", title: "The question drops", body: "A dilemma appears with context that makes it harder. You have one sentence to answer it." },
+    { n: "03", title: "Vote blind", body: "All answers revealed anonymously. Vote for your favourite and your least favourite." },
+    { n: "04", title: "Hot seat", body: "One player defends their answer to the group. The group decides if they survived." },
+    { n: "05", title: "Names revealed", body: "Everyone finds out who said what. Points awarded. The real conversation begins." },
+    { n: "06", title: "Go again", body: "Next dilemma. Same room. Things get personal." },
+  ];
+
+  const prev = () => setStep(s => Math.max(0, s - 1));
+  const next = () => setStep(s => Math.min(steps.length - 1, s + 1));
+  const handleTouchStart = (e) => { touchStart.current = e.touches[0].clientX; };
+  const handleTouchEnd = (e) => {
+    if (!touchStart.current) return;
+    const diff = touchStart.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { diff > 0 ? next() : prev(); }
+    touchStart.current = null;
+  };
+
   return (
-    <div style={{ minHeight: "100vh", background: T.bg }}>
+    <div style={{ minHeight: "100vh", background: T.bg, overflowX: "hidden" }}>
+
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px 60px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(" + T.border + " 1px, transparent 1px), linear-gradient(90deg, " + T.border + " 1px, transparent 1px)", backgroundSize: "60px 60px", opacity: 0.3, pointerEvents: "none" }} />
-        <div style={{ position: "relative", animation: "fade-up 0.6s ease both" }}><ChromeOrb size={72} pulse phase="idle" /></div>
-        <h1 className="chrome-text" style={{ fontFamily: F.display, fontSize: "clamp(80px, 20vw, 200px)", letterSpacing: "0.08em", lineHeight: 0.9, margin: "32px 0 0" }}>ORU</h1>
-        <p style={{ fontFamily: F.mono, fontSize: 11, letterSpacing: "0.4em", color: T.chromeDim, textTransform: "uppercase", margin: "20px 0 8px" }}>The moral dilemma game</p>
-        <p style={{ fontSize: 16, color: T.chromeDim, maxWidth: 480, lineHeight: 1.7, margin: "0 0 48px" }}>Anonymous answers. Blind voting. Then everyone finds out who said what. Two sentences. No right answers.</p>
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: "linear-gradient(" + T.border + "80 1px, transparent 1px), linear-gradient(90deg, " + T.border + "80 1px, transparent 1px)", backgroundSize: "80px 80px", opacity: 0.18 }} />
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -60%)", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, " + T.chrome + "08 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "relative", marginBottom: -8, animation: "fade-up 0.5s ease both" }}>
+          <ChromeOrb size={56} pulse phase="idle" />
+        </div>
+        <h1 className="chrome-text" style={{ fontFamily: F.display, fontSize: "clamp(100px, 22vw, 220px)", letterSpacing: "0.06em", lineHeight: 0.85, margin: "0 0 0" }}>ORU</h1>
+        <p style={{ fontFamily: F.body, fontStyle: "italic", fontSize: "clamp(15px, 2.5vw, 20px)", color: T.chromeDim, margin: "20px 0 52px", letterSpacing: "0.01em" }}>Where attention returns.</p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
-          <button className="btn-primary" onClick={onHost} style={{ fontSize: 12, padding: "16px 40px" }}>Host a Game</button>
-          <button className="btn-chrome" onClick={onJoin} style={{ fontSize: 12, padding: "16px 40px" }}>Join with Code</button>
+          <button className="btn-primary" onClick={onHost} style={{ fontSize: 11, padding: "15px 40px", letterSpacing: "0.25em" }}>HOST A GAME</button>
+          <button className="btn-chrome" onClick={onJoin} style={{ fontSize: 11, padding: "15px 40px", letterSpacing: "0.25em" }}>JOIN WITH CODE</button>
+        </div>
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)" }}>
+          <div style={{ width: 1, height: 40, background: "linear-gradient(" + T.borderHi + ", transparent)" }} />
         </div>
       </div>
-      <div style={{ borderTop: "1px solid " + T.border, padding: "80px 24px", maxWidth: 960, margin: "0 auto" }}>
-        <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 48, textAlign: "center" }}>How it works</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 1 }}>
-          {[{ n: "01", title: "Host picks a room", body: "One device creates the room. Everyone joins on their own phone with the code." }, { n: "02", title: "Answer anonymously", body: "A dilemma drops. Everyone writes their response in exactly two sentences." }, { n: "03", title: "Vote blind", body: "All answers revealed with no names. Vote for your favourite and least favourite." }, { n: "04", title: "Hot Seat", body: "One player is randomly put in the hot seat to defend their answer to the group." }, { n: "05", title: "Reveal", body: "Names exposed. Points awarded. The real debate begins." }, { n: "06", title: "Repeat", body: "Next round. Different dilemma. Same room. Things get personal." }].map((step, i) => (
-            <div key={i} style={{ background: T.card, border: "1px solid " + T.border, padding: "28px 24px" }}>
-              <div style={{ fontFamily: F.display, fontSize: 42, color: T.border, lineHeight: 1, marginBottom: 12 }}>{step.n}</div>
-              <div style={{ fontFamily: F.mono, fontSize: 11, color: T.chrome, letterSpacing: "0.1em", marginBottom: 8 }}>{step.title}</div>
-              <div style={{ fontSize: 13, color: T.chromeDim, lineHeight: 1.6 }}>{step.body}</div>
-            </div>
-          ))}
+
+      <div style={{ borderTop: "1px solid " + T.border, padding: "80px 0" }}>
+        <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 48, textAlign: "center", padding: "0 24px" }}>How it works</p>
+        <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} style={{ padding: "0 24px", userSelect: "none" }}>
+          <div style={{ maxWidth: 560, margin: "0 auto", background: T.card, border: "1px solid " + T.borderHi, padding: "40px 36px 36px", position: "relative", minHeight: 180 }}>
+            <div style={{ fontFamily: F.display, fontSize: 72, lineHeight: 1, color: T.border, position: "absolute", top: 24, right: 28, letterSpacing: "0.05em" }}>{steps[step].n}</div>
+            <div style={{ fontFamily: F.mono, fontSize: 11, color: T.chrome, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 16 }}>{steps[step].title}</div>
+            <p style={{ fontSize: 16, lineHeight: 1.7, color: T.chromeDim, margin: 0, maxWidth: 380 }}>{steps[step].body}</p>
+          </div>
         </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24, marginTop: 32, padding: "0 24px" }}>
+          <button onClick={prev} disabled={step === 0} style={{ background: "transparent", border: "1px solid " + (step === 0 ? T.border : T.borderHi), color: step === 0 ? T.border : T.chromeDim, width: 40, height: 40, cursor: step === 0 ? "default" : "pointer", fontFamily: F.mono, fontSize: 14, transition: "all 0.15s", display: "flex", alignItems: "center", justifyContent: "center" }}>←</button>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            {steps.map((_, i) => (
+              <button key={i} onClick={() => setStep(i)} style={{ width: i === step ? 20 : 6, height: 6, background: i === step ? T.chrome : T.border, border: "none", cursor: "pointer", transition: "all 0.25s ease", padding: 0 }} />
+            ))}
+          </div>
+          <button onClick={next} disabled={step === steps.length - 1} style={{ background: "transparent", border: "1px solid " + (step === steps.length - 1 ? T.border : T.borderHi), color: step === steps.length - 1 ? T.border : T.chromeDim, width: 40, height: 40, cursor: step === steps.length - 1 ? "default" : "pointer", fontFamily: F.mono, fontSize: 14, transition: "all 0.15s", display: "flex", alignItems: "center", justifyContent: "center" }}>→</button>
+        </div>
+        <p style={{ textAlign: "center", fontFamily: F.mono, fontSize: 9, color: T.border, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 20 }}>Swipe or tap to navigate</p>
       </div>
-      <div style={{ borderTop: "1px solid " + T.border, padding: "80px 24px", maxWidth: 960, margin: "0 auto" }}>
-        <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 32, textAlign: "center" }}>{DILEMMAS.length}+ dilemmas across {CATEGORIES.length - 1} categories</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+
+      <div style={{ borderTop: "1px solid " + T.border, padding: "64px 24px" }}>
+        <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 28, textAlign: "center" }}>{DILEMMAS.length} dilemmas across {CATEGORIES.length - 1} categories</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", maxWidth: 720, margin: "0 auto" }}>
           {CATEGORIES.slice(1).map((cat) => (<span key={cat} className="tag" style={{ color: T.chromeDim }}>{cat}</span>))}
         </div>
       </div>
-      <div style={{ borderTop: "1px solid " + T.border, padding: "80px 24px", maxWidth: 960, margin: "0 auto" }}>
-        <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 48, textAlign: "center" }}>Point scoring</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 1 }}>
-          {[{ pts: "+3", label: "Favourite vote", color: T.gold }, { pts: "+1", label: "Least fav vote", color: T.chrome }, { pts: "+5", label: "Survive hot seat", color: T.red }, { pts: "+2", label: "Hot seat crumbled", color: T.green }].map((p, i) => (
-            <div key={i} style={{ background: T.card, border: "1px solid " + T.border, padding: "24px", textAlign: "center" }}>
-              <div style={{ fontFamily: F.display, fontSize: 52, color: p.color, lineHeight: 1, marginBottom: 8 }}>{p.pts}</div>
-              <div style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.15em", textTransform: "uppercase" }}>{p.label}</div>
+
+      <div style={{ borderTop: "1px solid " + T.border, padding: "64px 24px" }}>
+        <p style={{ fontFamily: F.mono, fontSize: 10, color: T.chromeDim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 40, textAlign: "center" }}>Scoring</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 1, maxWidth: 720, margin: "0 auto" }}>
+          {[{ pts: "+3", label: "Favourite vote", color: T.gold }, { pts: "+1", label: "Least fav vote", color: T.chrome }, { pts: "+5", label: "Survive hot seat", color: T.red }, { pts: "+2", label: "Crumble", color: T.green }].map((p, i) => (
+            <div key={i} style={{ background: T.card, border: "1px solid " + T.border, padding: "24px 20px", textAlign: "center" }}>
+              <div style={{ fontFamily: F.display, fontSize: 48, color: p.color, lineHeight: 1, marginBottom: 8 }}>{p.pts}</div>
+              <div style={{ fontFamily: F.mono, fontSize: 9, color: T.chromeDim, letterSpacing: "0.15em", textTransform: "uppercase" }}>{p.label}</div>
             </div>
           ))}
         </div>
       </div>
+
       <div style={{ borderTop: "1px solid " + T.border, padding: "80px 24px", textAlign: "center" }}>
-        <h2 className="chrome-text" style={{ fontFamily: F.display, fontSize: "clamp(40px, 10vw, 80px)", letterSpacing: "0.1em", marginBottom: 32 }}>START A GAME</h2>
+        <p style={{ fontFamily: F.body, fontStyle: "italic", fontSize: "clamp(18px, 3vw, 26px)", color: T.chromeDim, marginBottom: 40 }}>Where attention returns.</p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <button className="btn-primary" onClick={onHost} style={{ fontSize: 12, padding: "16px 48px" }}>Host</button>
-          <button className="btn-chrome" onClick={onJoin} style={{ fontSize: 12, padding: "16px 48px" }}>Join</button>
+          <button className="btn-primary" onClick={onHost} style={{ fontSize: 11, padding: "15px 48px", letterSpacing: "0.25em" }}>HOST</button>
+          <button className="btn-chrome" onClick={onJoin} style={{ fontSize: 11, padding: "15px 48px", letterSpacing: "0.25em" }}>JOIN</button>
         </div>
-        <p style={{ fontFamily: F.mono, fontSize: 10, color: T.border, marginTop: 60, letterSpacing: "0.2em" }}>ORU — PLAY ANYWHERE</p>
+        <p style={{ fontFamily: F.mono, fontSize: 9, color: T.border, marginTop: 48, letterSpacing: "0.25em" }}>ORULAB.IO</p>
       </div>
+
     </div>
   );
 }
